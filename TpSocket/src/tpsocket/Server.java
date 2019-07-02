@@ -10,22 +10,25 @@ import java.util.logging.Logger;
  * @author Manno
  */
 public class Server {
-
-    public static InetAddress MY_IP;
+    public static final String USED_SERVER_IP = "172.26.0.149";
+    public  InetAddress MY_IP;
     public static final int MY_PORT = 7777;
-    public static final int MAX_IN_CNX = 10;
+    public final int MAX_IN_CNX = 10;
     ServerSocket serverSocket = null;
     Socket socket = null;
     DataInputStream msg;
-
-    public Server() {
+    public static final int senario=2;
+    public Server(int senario) {
         try {
-            MY_IP = Inet4Address.getLocalHost();
+            MY_IP = Inet4Address.getByName(USED_SERVER_IP);
             try {
                 serverSocket = new ServerSocket(MY_PORT, MAX_IN_CNX, MY_IP);
                 System.err.println("the server is waiting for connexions ...");
-                socket = serverSocket.accept();
-                receiveString();
+                if (senario == 1) {
+                    executeStringSenario();
+                } else {
+                    executeIntSenario();
+                }
             } catch (IOException ex) {
                 System.err.println("IOException while creating server soket");
             }
@@ -44,9 +47,10 @@ public class Server {
             try {
                 stringMsg = msg.readUTF();
                 inputStream.close();
-                closeSokets();
                 System.out.println("A msg is received from the client( IP= " + socket.getInetAddress().toString() + " & PORT = "
                         + socket.getPort() + " ) with content: " + stringMsg);
+                closeSokets();
+
             } catch (IOException ex) {
                 System.err.println("IOException while receiving the string to the msg");
             }
@@ -69,7 +73,7 @@ public class Server {
                         + socket.getPort() + " ) with content: " + intMsg);
                 closeSokets();
             } catch (IOException ex) {
-                System.err.println("IOException while receiving the int to the msg");
+                System.err.println("IOException while receiving the int msg");
             }
         } catch (IOException ex) {
             System.err.println("IOException while creating InputStream");
@@ -102,7 +106,25 @@ public class Server {
 
     }
 
+    public void executeStringSenario() {
+        try {
+            socket = serverSocket.accept();
+            receiveString();
+        } catch (IOException ex) {
+            System.err.println("IOException while creating server soket");
+        }
+    }
+
+    public void executeIntSenario() {
+        try {
+            socket = serverSocket.accept();
+            receiveInt();
+        } catch (IOException ex) {
+            System.err.println("IOException while creating server soket");
+        }
+    }
+
     public static void main(String[] args) {
-        new Server();
+        new Server(senario);
     }
 }

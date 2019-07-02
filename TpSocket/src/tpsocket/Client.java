@@ -3,24 +3,22 @@
 import java.io.*;
 import java.net.*;
 
-
 /**
  *
  * @author Manno
  */
 public class Client {
-
+    public static String  USED_CLIENT_IP = "172.26.1.47";
     public static InetAddress MY_IP;
-    public static final int MY_PORT = 7777;
-    public static final String USED_SERVER_IP = "";
-    public static InetAddress SERVER_IP;
-    public static final int SERVER_PORT = 7777;
+    public final int MY_PORT = 7778;
+    public final String USED_SERVER_IP = Server.USED_SERVER_IP;
+    public InetAddress SERVER_IP;
+    public final int SERVER_PORT =Server.MY_PORT;
     Socket socket = null;
     DataOutputStream msg = null;
-
     public Client() {
         try {
-            MY_IP = Inet4Address.getLocalHost();
+            MY_IP = Inet4Address.getByName(USED_CLIENT_IP);
             try {
                 SERVER_IP = Inet4Address.getByName(USED_SERVER_IP);
                 try {
@@ -28,6 +26,7 @@ public class Client {
                     System.out.println("Client Soket is successfully created");
                 } catch (IOException ex) {
                     System.err.println("IOException while creating client soket");
+                    ex.printStackTrace();
                 }
             } catch (UnknownHostException hostServerException) {
                 System.err.println("UnknownHostException Server host " + USED_SERVER_IP + " coudn't be found ->SERVER_IP");
@@ -40,13 +39,13 @@ public class Client {
     }
 
     public void sendAnInteger(int intMsg) {
-    if (socket != null) {
+        if (socket != null) {
             OutputStream output = null;
             try {
                 output = socket.getOutputStream();
                 msg = new DataOutputStream(output);
                 try {
-                    msg.write(intMsg);
+                    msg.writeInt(intMsg);
                     try {
                         msg.flush();
                         System.out.println("msg send is successfully");
@@ -104,23 +103,42 @@ public class Client {
             }
         }
     }
-    
-    public void closeSoket(){
-        try {
-            socket.close();
-            socket=null;
-            System.out.println("close soket done");
-        } catch (IOException ex) {
-            System.err.println("IOException while closing the client socket");
+
+    public void closeSoket() {
+        if (socket != null) {
+            try {
+                socket.close();
+                socket = null;
+                System.out.println("close soket done");
+            } catch (IOException ex) {
+                System.err.println("IOException while closing the client socket");
+            }
+
         }
-        
+    }
+
+    public static void executeStringSenario() {
+        Client client = new Client();
+        client.sendAString("Slm");
+        client.closeSoket();
+    }
+
+    public static void executeIntSenario() {
+        Client client = new Client();
+        client.sendAnInteger(5);
+        client.closeSoket();
+    }
+
+    public static void execute(int senario) {
+        if (senario == 1) {
+            executeStringSenario();
+        } else {
+            executeIntSenario();
+        }
     }
 
     public static void main(String[] args) {
-        Client client = new Client();
-        client.sendAString("Slm");
-        client.sendAnInteger(5);
-        client.closeSoket();
+        execute(Server.senario);
     }
 
 }
