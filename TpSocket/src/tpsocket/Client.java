@@ -8,14 +8,15 @@ import java.net.*;
  * @author Manno
  */
 public class Client {
-    public static String  USED_CLIENT_IP = "172.26.1.47";
+    public static String  USED_CLIENT_IP = "192.168.43.181";
+    public static final String USED_SERVER_IP = "192.168.43.90";
     public static InetAddress MY_IP;
-    public final int MY_PORT = 7778;
-    public final String USED_SERVER_IP = Server.USED_SERVER_IP;
+    public final int MY_PORT = 7777;
     public InetAddress SERVER_IP;
-    public final int SERVER_PORT =Server.MY_PORT;
+    public static final int SERVER_PORT = 7777;
     Socket socket = null;
     DataOutputStream msg = null;
+    public static final int senario=2;
     public Client() {
         try {
             MY_IP = Inet4Address.getByName(USED_CLIENT_IP);
@@ -138,7 +139,7 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        execute(Server.senario);
+        execute(senario);
     }
 
 }

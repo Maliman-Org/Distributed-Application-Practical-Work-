@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * @author Manno
  */
 public class Server {
-    public static final String USED_SERVER_IP = "172.26.0.149";
+    public static final String USED_SERVER_IP = "192.168.43.90";
     public  InetAddress MY_IP;
     public static final int MY_PORT = 7777;
     public final int MAX_IN_CNX = 10;
