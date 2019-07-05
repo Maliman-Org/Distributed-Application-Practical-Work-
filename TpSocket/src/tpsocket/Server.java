@@ -10,14 +10,16 @@ import java.util.logging.Logger;
  * @author Manno
  */
 public class Server {
+
     public static final String USED_SERVER_IP = "192.168.43.90";
-    public  InetAddress MY_IP;
+    public InetAddress MY_IP;
     public static final int MY_PORT = 7777;
     public final int MAX_IN_CNX = 10;
     ServerSocket serverSocket = null;
     Socket socket = null;
     DataInputStream msg;
-    public static final int senario=2;
+    public static final int senario = 2;
+
     public Server(int senario) {
         try {
             MY_IP = Inet4Address.getByName(USED_SERVER_IP);
@@ -29,6 +31,10 @@ public class Server {
                 } else {
                     executeIntSenario();
                 }
+            } catch (IllegalArgumentException argumentException) {
+                System.err.println("IllegalArgumentException the chosen port : "+MY_PORT+" is not in the valid rage which is 0 - 65535");
+            } catch (SecurityException se) {
+                System.err.println("SecurityException the security manager of Server didnt allow the operation");
             } catch (IOException ex) {
                 System.err.println("IOException while creating server soket");
             }
