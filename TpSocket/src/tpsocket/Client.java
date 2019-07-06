@@ -9,15 +9,15 @@ import java.net.*;
  */
 public class Client {
 
-    public static String USED_CLIENT_IP = "192.168.43.181";
-    public static final String USED_SERVER_IP = "192.168.43.90";
+    public static String USED_CLIENT_IP ="192.168.56.1"; //"192.168.43.181";
+    public static final String USED_SERVER_IP = "192.168.56.1"; //"192.168.43.90";
     public static InetAddress MY_IP;
-    public final int MY_PORT = 7777;
+    public final int MY_PORT = 7776;
     public InetAddress SERVER_IP;
     public static final int SERVER_PORT = 7777;
     Socket socket = null;
     DataOutputStream msg = null;
-    public static final int senario = 2;
+    public static final int scenario = 1;
 
     public Client() {
         try {
@@ -26,7 +26,7 @@ public class Client {
                 SERVER_IP = Inet4Address.getByName(USED_SERVER_IP);
                 try {
                     socket = new Socket(SERVER_IP, SERVER_PORT, MY_IP, MY_PORT);
-                    System.out.println("Client Soket is successfully created");
+                    System.out.println("Client Socket is successfully created");
                 } catch (IllegalArgumentException argumentException) {
                     System.err.println("IllegalArgumentException the port is not in the valid rage which is 0 - 65535");
                 } catch (BindException bindException) {
@@ -75,7 +75,7 @@ public class Client {
             }
 
         } else {
-            System.err.println("soket is null i can't send the int msg");
+            System.err.println("socket is null i can't send the int msg");
         }
     }
 
@@ -102,7 +102,7 @@ public class Client {
             }
 
         } else {
-            System.err.println("soket is null i can't send the string msg");
+            System.err.println("socket is null i can't send the string msg");
         }
     }
 
@@ -118,7 +118,7 @@ public class Client {
         }
     }
 
-    public void closeSoket() {
+    public void closeSocket() {
         if (socket != null) {
             try {
                 socket.close();
@@ -131,28 +131,28 @@ public class Client {
         }
     }
 
-    public static void executeStringSenario() {
+    public static void executeStringScenario() {
         Client client = new Client();
         client.sendAString("Slm");
-        client.closeSoket();
+        client.closeSocket();
     }
 
-    public static void executeIntSenario() {
+    public static void executeIntScenario() {
         Client client = new Client();
         client.sendAnInteger(5);
-        client.closeSoket();
+        client.closeSocket();
     }
 
     public static void execute(int senario) {
         if (senario == 1) {
-            executeStringSenario();
+            executeStringScenario();
         } else {
-            executeIntSenario();
+            executeIntScenario();
         }
     }
 
     public static void main(String[] args) {
-        execute(senario);
+        execute(scenario);
     }
 
 }

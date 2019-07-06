@@ -11,25 +11,25 @@ import java.util.logging.Logger;
  */
 public class Server {
 
-    public static final String USED_SERVER_IP = "192.168.43.90";
+    public static final String USED_SERVER_IP = "192.168.56.1"; //"192.168.43.90";
     public InetAddress MY_IP;
     public static final int MY_PORT = 7777;
     public final int MAX_IN_CNX = 10;
     ServerSocket serverSocket = null;
     Socket socket = null;
     DataInputStream msg;
-    public static final int senario = 2;
+    public static final int scenario = 1;
 
-    public Server(int senario) {
+    public Server(int scenario) {
         try {
             MY_IP = Inet4Address.getByName(USED_SERVER_IP);
             try {
                 serverSocket = new ServerSocket(MY_PORT, MAX_IN_CNX, MY_IP);
                 System.err.println("the server is waiting for connexions ...");
-                if (senario == 1) {
-                    executeStringSenario();
+                if (scenario == 1) {
+                    executeStringScenario();
                 } else {
-                    executeIntSenario();
+                    executeIntScenario();
                 }
             } catch (IllegalArgumentException argumentException) {
                 System.err.println("IllegalArgumentException the chosen port : "+MY_PORT+" is not in the valid rage which is 0 - 65535");
@@ -55,7 +55,7 @@ public class Server {
                 inputStream.close();
                 System.out.println("A msg is received from the client( IP= " + socket.getInetAddress().toString() + " & PORT = "
                         + socket.getPort() + " ) with content: " + stringMsg);
-                closeSokets();
+                closeSockets();
 
             } catch (IOException ex) {
                 System.err.println("IOException while receiving the string to the msg");
@@ -77,7 +77,7 @@ public class Server {
                 inputStream.close();
                 System.out.println("A msg is received from the client( IP= " + socket.getInetAddress().toString() + " & PORT = "
                         + socket.getPort() + " ) with content: " + intMsg);
-                closeSokets();
+                closeSockets();
             } catch (IOException ex) {
                 System.err.println("IOException while receiving the int msg");
             }
@@ -99,38 +99,38 @@ public class Server {
         }
     }
 
-    public void closeSokets() {
+    public void closeSockets() {
         try {
             socket.close();
             serverSocket.close();
             socket = null;
             serverSocket = null;
-            System.out.println("close sokets done");
+            System.out.println("close sockets done");
         } catch (IOException ex) {
             System.err.println("IOException while closing the server sockets");
         }
 
     }
 
-    public void executeStringSenario() {
+    public void executeStringScenario() {
         try {
             socket = serverSocket.accept();
             receiveString();
         } catch (IOException ex) {
-            System.err.println("IOException while creating server soket");
+            System.err.println("IOException while creating server socket");
         }
     }
 
-    public void executeIntSenario() {
+    public void executeIntScenario() {
         try {
             socket = serverSocket.accept();
             receiveInt();
         } catch (IOException ex) {
-            System.err.println("IOException while creating server soket");
+            System.err.println("IOException while creating server socket");
         }
     }
 
     public static void main(String[] args) {
-        new Server(senario);
+        new Server(scenario);
     }
 }
