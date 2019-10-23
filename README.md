@@ -10,8 +10,8 @@ In this part we have two scenarios to realize:
    
    ✅ Send a string 🔠
    
-In both of the two types we did the same steps with a small modification wich is: 
+In both of the mentionned scenarios we did the same steps with a small modification, which is: 
 
-  * Changing the value of the variable "scenarion" in classes "*Client.java*" & "*Server.java*" , which takes 1 if we want to execute the string scenarion , else if we want to execute the integer scenario.  
+  * Changing the value of the variable "scenarion" in classes "*Client.java*" & "*Server.java*" , which takes 1 if we want to execute the string scenarion , else in case of integer scenario.  
   
 ## RMI 
