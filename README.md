@@ -33,7 +33,7 @@ In order to send a string from two devices using RMI java class, we followed the
 Lunch three cmd: 
 
 1. First one for *rmiregistry*.
-2. Secod one for *Server*.
+2. Second one for *Server*.
 3. Third one for *Client*.
  
  
